@@ -1,0 +1,109 @@
+Of course, here are some concise notes covering the theoretical concepts from your Java course syllabus.
+
+## Unit I: Introduction to Java Programming
+
+### Core Concepts
+* **Java Architecture**:
+    * **JDK (Java Development Kit)**: The full toolkit for developing Java applications. It includes the JRE and development tools like the compiler (`javac`).
+    * **JRE (Java Runtime Environment)**: The environment needed to *run* Java applications. It contains the JVM and core libraries.
+    * **JVM (Java Virtual Machine)**: An abstract machine that enables a computer to run a Java program. It interprets the compiled Java bytecode, making Java "platform-independent."
+* **Features of Java**: Object-Oriented, Platform Independent, Simple, Secure, Robust, Multithreaded, and High Performance.
+* **Keywords**: Reserved words in Java that have a predefined meaning and cannot be used as variable names (e.g., `public`, `class`, `static`, `void`).
+* **Variables & Identifiers**:
+    * **Variables**: A container that holds a value. Types include instance, static, and local.
+    * **Identifiers**: Names given to classes, methods, and variables.
+* **Scope of Variables**: The region of a program where a variable can be accessed.
+* **Data Types**:
+    * **Primitive**: Basic types like `int`, `char`, `boolean`, `float`, `double`.
+    * **Non-Primitive**: Objects, Strings, and Arrays.
+* **Type Conversion**: Converting one data type to another.
+    * **Widening (Implicit)**: Smaller type to a larger type (e.g., `int` to `double`).
+    * **Narrowing (Explicit)**: Larger type to a smaller type, requires a "cast" (e.g., `(int) double`).
+* **Access Modifiers**: Keywords that set the accessibility of classes, methods, and other members.
+    * **`public`**: Accessible from anywhere.
+    * **`protected`**: Accessible within the same package and by subclasses.
+    * **`default` (no keyword)**: Accessible only within the same package.
+    * **`private`**: Accessible only within the same class.
+
+### Operators & Control Flow
+* **Operators**: Symbols that perform operations on variables and values (e.g., **Arithmetic** `+`, `-`; **Relational** `>`, `<`; **Logical** `&&`, `||`; **Assignment** `=`).
+* **Decision Statements**: Control the flow of execution based on conditions.
+    * **`if`, `if-else`, `if-else-if`**: Executes a block of code if a condition is true.
+    * **`switch`**: Selects one of many code blocks to be executed based on a variable's value.
+
+---
+
+## Unit II: Looping, Jumps, and Arrays
+
+### Looping and Jump Statements
+* **Looping Statements**: Execute a block of code repeatedly.
+    * **`for` loop**: Used when the number of iterations is known.
+    * **`while` loop**: Used when the number of iterations is unknown; the condition is checked *before* the loop body.
+    * **`do-while` loop**: Similar to a `while` loop, but the condition is checked *after* the loop body, so it always executes at least once.
+* **Jump Statements**: Transfer control to another part of the program.
+    * **`break`**: Terminates the loop or `switch` statement immediately.
+    * **`continue`**: Skips the current iteration of a loop and proceeds to the next one.
+    * **Labelled Statements**: A label can be used with `break` or `continue` to exit or continue an outer loop from within an inner loop.
+
+### Arrays
+* **Array**: A collection of fixed-size, similar data type elements stored in contiguous memory locations.
+* **Declaration**: Declaring an array variable (e.g., `int[] myArray;`).
+* **Instantiation**: Creating the array object in memory (e.g., `myArray = new int[10];`).
+* **Initialization**: Assigning values to the array elements.
+* **Types of Arrays**:
+    * **Single-Dimension Array**: A linear list of elements.
+    * **Multidimensional Array**: An array of arrays, often used to represent matrices or tables.
+
+---
+
+## Unit III: Strings and File I/O
+
+### String Handling
+* **`String`**: An immutable (unchangeable) sequence of characters. Once a String object is created, its value cannot be altered. Every modification creates a new object.
+* **`StringBuffer`**: A mutable (changeable) sequence of characters. It is **thread-safe**, meaning it's safe to use in multi-threaded applications. Operations are synchronized.
+* **`StringBuilder`**: Also a mutable sequence of characters. It is **not thread-safe**, which makes it faster than `StringBuffer` for single-threaded applications.
+* **String Memory**: `String` literals are stored in a special memory area called the "String Constant Pool" to promote reusability. Objects created with the `new` keyword are stored in the heap.
+* **File Navigation and I/O**: Refers to the process of reading from and writing to files on a storage device.
+
+---
+
+## Unit IV: Streams
+
+### Core Concepts
+* **Stream**: A sequence of data. In Java, streams are used to perform input and output operations.
+* **Types of Streams**:
+    * **Byte Stream**: Used to read and write binary data (8-bit bytes). The main abstract classes are `InputStream` and `OutputStream`.
+    * **Character Stream**: Used to read and write character data (16-bit Unicode). The main abstract classes are `Reader` and `Writer`.
+* **`File` Class**: Represents a file or directory path but does not contain methods for reading/writing data. It's used for file system operations like creating, deleting, or renaming files.
+* **Serialization**: The process of converting an object's state into a byte stream, which can then be saved to a file or sent over a network. **Deserialization** is the reverse process.
+* **Parsing, Tokenizing, and Formatting**:
+    * **Parsing**: Converting a String representation of data into its native data type (e.g., String "123" to integer 123).
+    * **Tokenizing**: Breaking a string into smaller parts or "tokens" based on a delimiter.
+    * **Formatting**: Creating a formatted string representation from data (e.g., dates, numbers, currency).
+* **Pattern Matching**: Using regular expressions to find, match, or locate specific patterns of text within a string.
+
+---
+
+## Unit V: Event Handling and Swing
+
+### Event Handling
+* **Event**: An action or occurrence recognized by the software, such as a button click, mouse movement, or key press.
+* **Event Handling**: The mechanism that controls the event and decides what should happen if an event occurs.
+    * **Event Source**: The component on which the event is generated (e.g., a button).
+    * **Event Listener (Handler)**: An object that is notified when an event occurs and implements methods to process it.
+* **Adapter Classes**: Abstract classes that provide empty implementations of all methods in an event listener interface. They simplify code when you only need to override a few methods.
+* **AWT Event Hierarchy**: A class hierarchy of all AWT events, with `AWTEvent` at its root.
+
+### Swing & GUI
+* **Swing**: A part of the Java Foundation Classes (JFC) used for creating graphical user interfaces (GUIs). Swing components are lightweight (platform-independent) compared to their older AWT counterparts.
+* **MVC (Model-View-Controller) Design Pattern**:
+    * **Model**: Manages the application's data and business logic.
+    * **View**: Manages the display of the data (the user interface).
+    * **Controller**: Handles user input and translates it into actions for the model or view.
+* **Layout Management**: Controls the positioning and sizing of components within a container (e.g., `BorderLayout`, `FlowLayout`, `GridLayout`).
+* **Exception Handling**: A mechanism to handle runtime errors or exceptional conditions.
+    * **`try`**: The block of code to be monitored for exceptions.
+    * **`catch`**: The block that handles the exception if one occurs in the `try` block.
+    * **`finally`**: A block that is always executed, whether an exception occurred or not.
+    * **`throw`**: Used to manually throw an exception.
+    * **`throws`**: Specifies the exceptions that a method might throw.

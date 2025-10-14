@@ -1,0 +1,683 @@
+Of course\! Here are the corrected code snippets along with three different variations for each problem.
+
+-----
+
+### **Q1: Employee Salary (OOP / Inheritance)**
+
+#### **Variation 1: Original (Corrected Indentation)**
+
+This version uses standard inheritance and method overriding as provided in your example.
+
+```java
+class Employee {
+    int id;
+    String name;
+    double baseSalary;
+
+    Employee(int id, String name, double baseSalary) {
+        this.id = id;
+        this.name = name;
+        this.baseSalary = baseSalary;
+    }
+
+    double calculateSalary() {
+        return baseSalary;
+    }
+
+    void display() {
+        System.out.println("ID: " + id + ", Name: " + name + ", Salary: " + calculateSalary());
+    }
+}
+
+class Designer extends Employee {
+    Designer(int id, String name, double baseSalary) {
+        super(id, name, baseSalary);
+    }
+
+    @Override
+    double calculateSalary() {
+        return baseSalary + (0.10 * baseSalary);
+    }
+}
+
+class Tester extends Employee {
+    double bonus;
+
+    Tester(int id, String name, double baseSalary, double bonus) {
+        super(id, name, baseSalary);
+        this.bonus = bonus;
+    }
+
+    @Override
+    double calculateSalary() {
+        return baseSalary + (0.05 * baseSalary) + bonus;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Employee e1 = new Designer(101, "Alice", 50000);
+        Employee e2 = new Tester(102, "Bob", 40000, 2000);
+        e1.display();
+        e2.display();
+    }
+}
+```
+
+#### **Variation 2: Using an Abstract Class**
+
+Here, the `Employee` class is made `abstract`, forcing every subclass to provide its own implementation for the `calculateSalary` method. This ensures that no generic `Employee` object (which has no defined salary calculation rule) can be created.
+
+```java
+abstract class Employee {
+    int id;
+    String name;
+    double baseSalary;
+
+    Employee(int id, String name, double baseSalary) {
+        this.id = id;
+        this.name = name;
+        this.baseSalary = baseSalary;
+    }
+
+    // Abstract method must be implemented by subclasses
+    abstract double calculateSalary();
+
+    void display() {
+        System.out.println("ID: " + id + ", Name: " + name + ", Salary: " + calculateSalary());
+    }
+}
+
+class Designer extends Employee {
+    Designer(int id, String name, double baseSalary) {
+        super(id, name, baseSalary);
+    }
+
+    @Override
+    double calculateSalary() {
+        return baseSalary * 1.10; // Simplified calculation
+    }
+}
+
+class Tester extends Employee {
+    double bonus;
+
+    Tester(int id, String name, double baseSalary, double bonus) {
+        super(id, name, baseSalary);
+        this.bonus = bonus;
+    }
+
+    @Override
+    double calculateSalary() {
+        return (baseSalary * 1.05) + bonus; // Simplified calculation
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Employee e1 = new Designer(101, "Alice", 50000);
+        Employee e2 = new Tester(102, "Bob", 40000, 2000);
+        e1.display();
+        e2.display();
+    }
+}
+```
+
+#### **Variation 3: Using an Interface**
+
+This approach separates the "contract" (the `Payable` interface) from the implementation. Any class that can be paid must implement the `Payable` interface, which guarantees it will have a `calculateSalary` method.
+
+```java
+interface Payable {
+    double calculateSalary();
+    void display();
+}
+
+class Employee {
+    int id;
+    String name;
+    double baseSalary;
+
+    Employee(int id, String name, double baseSalary) {
+        this.id = id;
+        this.name = name;
+        this.baseSalary = baseSalary;
+    }
+}
+
+class Designer extends Employee implements Payable {
+    Designer(int id, String name, double baseSalary) {
+        super(id, name, baseSalary);
+    }
+
+    @Override
+    public double calculateSalary() {
+        return baseSalary + (0.10 * baseSalary);
+    }
+    
+    @Override
+    public void display() {
+        System.out.println("Designer ID: " + id + ", Name: " + name + ", Salary: " + calculateSalary());
+    }
+}
+
+class Tester extends Employee implements Payable {
+    double bonus;
+
+    Tester(int id, String name, double baseSalary, double bonus) {
+        super(id, name, baseSalary);
+        this.bonus = bonus;
+    }
+
+    @Override
+    public double calculateSalary() {
+        return baseSalary + (0.05 * baseSalary) + bonus;
+    }
+    
+    @Override
+    public void display() {
+        System.out.println("Tester ID: " + id + ", Name: " + name + ", Salary: " + calculateSalary());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Payable d1 = new Designer(101, "Alice", 50000);
+        Payable t1 = new Tester(102, "Bob", 40000, 2000);
+        d1.display();
+        t1.display();
+    }
+}
+```
+
+-----
+
+### **Q2: String Operations (Swing GUI)**
+
+#### **Variation 1: Original (Corrected Indentation)**
+
+This version uses a mix of an anonymous inner class and lambda expressions for event handling.
+
+```java
+import javax.swing.*;
+import java.awt.event.*;
+
+public class StringGUI {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("String Operations");
+        JTextField text = new JTextField();
+        text.setBounds(50, 50, 200, 30);
+
+        JLabel result = new JLabel();
+        result.setBounds(50, 150, 300, 30);
+
+        JButton consonants = new JButton("Count Consonants");
+        consonants.setBounds(50, 100, 150, 30);
+
+        JButton lowercase = new JButton("Lowercase");
+        lowercase.setBounds(210, 100, 100, 30);
+
+        JButton length = new JButton("Length");
+        length.setBounds(320, 100, 80, 30);
+
+        consonants.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String s = text.getText();
+                int count = 0;
+                for (char c : s.toLowerCase().toCharArray()) {
+                    if (c >= 'a' && c <= 'z' && "aeiou".indexOf(c) == -1) {
+                        count++;
+                    }
+                }
+                result.setText("Consonants: " + count);
+            }
+        });
+
+        lowercase.addActionListener(e -> result.setText("Lowercase: " + text.getText().toLowerCase()));
+        length.addActionListener(e -> result.setText("Length: " + text.getText().length()));
+        
+        frame.add(text);
+        frame.add(consonants);
+        frame.add(lowercase);
+        frame.add(length);
+        frame.add(result);
+
+        frame.setSize(500, 300);
+        frame.setLayout(null);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+}
+```
+
+#### **Variation 2: Implementing ActionListener in the Main Class**
+
+This centralizes all event handling logic into a single `actionPerformed` method. It checks the source of the event to decide which action to perform.
+
+```java
+import javax.swing.*;
+import java.awt.event.*;
+
+public class StringGUI implements ActionListener {
+    JFrame frame;
+    JTextField text;
+    JLabel result;
+    JButton consonants, lowercase, length;
+
+    StringGUI() {
+        frame = new JFrame("String Operations");
+        text = new JTextField();
+        text.setBounds(50, 50, 200, 30);
+
+        result = new JLabel();
+        result.setBounds(50, 150, 300, 30);
+
+        consonants = new JButton("Count Consonants");
+        consonants.setBounds(50, 100, 150, 30);
+
+        lowercase = new JButton("Lowercase");
+        lowercase.setBounds(210, 100, 100, 30);
+
+        length = new JButton("Length");
+        length.setBounds(320, 100, 80, 30);
+
+        // Add the same listener to all buttons
+        consonants.addActionListener(this);
+        lowercase.addActionListener(this);
+        length.addActionListener(this);
+
+        frame.add(text);
+        frame.add(consonants);
+        frame.add(lowercase);
+        frame.add(length);
+        frame.add(result);
+
+        frame.setSize(500, 300);
+        frame.setLayout(null);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String input = text.getText();
+        if (e.getSource() == consonants) {
+            int count = 0;
+            for (char c : input.toLowerCase().toCharArray()) {
+                if (Character.isLetter(c) && !"aeiou".contains(String.valueOf(c))) {
+                    count++;
+                }
+            }
+            result.setText("Consonants: " + count);
+        } else if (e.getSource() == lowercase) {
+            result.setText("Lowercase: " + input.toLowerCase());
+        } else if (e.getSource() == length) {
+            result.setText("Length: " + input.length());
+        }
+    }
+
+    public static void main(String[] args) {
+        new StringGUI();
+    }
+}
+```
+
+#### **Variation 3: Using a Layout Manager (FlowLayout)**
+
+This version avoids `setBounds` and `setLayout(null)`, which is generally better practice. It uses `FlowLayout` to automatically arrange components, making the GUI more adaptable.
+
+```java
+import javax.swing.*;
+import java.awt.*;
+
+public class StringGUI {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("String Operations");
+        JPanel panel = new JPanel(); // Use a panel for components
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20)); // Set layout
+
+        JTextField text = new JTextField(20); // Set preferred size
+        JLabel result = new JLabel("Result will be shown here.");
+        
+        JButton consonants = new JButton("Count Consonants");
+        JButton lowercase = new JButton("Lowercase");
+        JButton length = new JButton("Length");
+
+        // Action Listeners using lambdas
+        consonants.addActionListener(e -> {
+            String s = text.getText().toLowerCase();
+            long count = s.chars().filter(ch -> ch >= 'a' && ch <= 'z' && "aeiou".indexOf(ch) == -1).count();
+            result.setText("Consonants: " + count);
+        });
+        
+        lowercase.addActionListener(e -> result.setText("Lowercase: " + text.getText().toLowerCase()));
+        length.addActionListener(e -> result.setText("Length: " + text.getText().length()));
+        
+        panel.add(new JLabel("Enter Text:"));
+        panel.add(text);
+        panel.add(consonants);
+        panel.add(lowercase);
+        panel.add(length);
+        panel.add(result);
+        
+        frame.add(panel); // Add the panel to the frame
+        frame.pack(); // Size the frame to fit the components
+        frame.setLocationRelativeTo(null); // Center the frame
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+}
+```
+
+-----
+
+### **Q3: Array Practice (Loops/Conditionals)**
+
+#### **Variation 1: Original (Corrected Indentation)**
+
+This version uses a single enhanced for-loop to iterate through the array and perform all calculations.
+
+```java
+import java.util.Scanner;
+
+public class ArrayPractice {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        int oddCount = 0;
+        int divisibleBy3Count = 0;
+        for (int num : arr) {
+            if (num % 2 != 0) {
+                oddCount++;
+            }
+            if (num % 3 == 0) {
+                divisibleBy3Count++;
+            }
+        }
+
+        // Handle case for an empty or single-element array
+        int sumFirstLast = 0;
+        if (n > 0) {
+            sumFirstLast = arr[0] + arr[n - 1];
+        }
+
+        System.out.println("Odd numbers count: " + oddCount);
+        System.out.println("Sum of first and last: " + sumFirstLast);
+        System.out.println("Numbers divisible by 3: " + divisibleBy3Count);
+        sc.close();
+    }
+}
+```
+
+#### **Variation 2: Using Separate Methods**
+
+This approach improves code organization and readability by creating a dedicated method for each distinct calculation. This makes the `main` method cleaner and the logic easier to test and reuse.
+
+```java
+import java.util.Scanner;
+
+public class ArrayPractice {
+
+    public static int countOddNumbers(int[] array) {
+        int count = 0;
+        for (int num : array) {
+            if (num % 2 != 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static int sumFirstAndLast(int[] array) {
+        if (array.length == 0) {
+            return 0;
+        }
+        return array[0] + array[array.length - 1];
+    }
+
+    public static int countDivisibleBy3(int[] array) {
+        int count = 0;
+        for (int num : array) {
+            if (num % 3 == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        System.out.println("Odd numbers count: " + countOddNumbers(arr));
+        System.out.println("Sum of first and last: " + sumFirstAndLast(arr));
+        System.out.println("Numbers divisible by 3: " + countDivisibleBy3(arr));
+        sc.close();
+    }
+}
+```
+
+#### **Variation 3: Using Java Streams API**
+
+This is a modern, functional approach using Java 8 Streams. It allows you to express computations as a sequence of operations, often resulting in more concise and readable code.
+
+```java
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArrayPractice {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        // Count odd numbers using a stream
+        long oddCount = Arrays.stream(arr).filter(num -> num % 2 != 0).count();
+
+        // Calculate sum of first and last
+        int sumFirstLast = (n > 0) ? (arr[0] + arr[n - 1]) : 0;
+
+        // Count numbers divisible by 3
+        long divisibleBy3Count = Arrays.stream(arr).filter(num -> num % 3 == 0).count();
+
+        System.out.println("Odd numbers count: " + oddCount);
+        System.out.println("Sum of first and last: " + sumFirstLast);
+        System.out.println("Numbers divisible by 3: " + divisibleBy3Count);
+        sc.close();
+    }
+}
+```
+
+
+
+EXTRA
+
+
+
+
+Of course. Here is a comprehensive 15-mark practice problem that combines **OOP**, **File I/O (Data Streams)**, and **Custom Exception Handling**.
+
+-----
+
+### 15-Mark Practice Question: OOP with File I/O & Custom Exceptions
+
+**Problem Statement:**
+Develop a program to process employee payroll records from a file. The program must read employee data from `input.txt`, validate it, calculate the final salary, and write the results to `output.txt`.
+
+1.  **OOP:** Create an `Employee` class with fields for `id`, `name`, and `baseSalary`. Include a method `calculateFinalSalary()` that returns the base salary plus a 10% bonus.
+2.  **Custom Exception:** Create a custom checked exception named `InvalidSalaryException`. This exception should be thrown by the `Employee` constructor if the `baseSalary` is negative.
+3.  **File I/O (Data Streams):**
+      * Read employee records line by line from `input.txt`. Each line will be in the format `id,name,baseSalary` (e.g., `101,Alice,50000`).
+      * Write the processed payroll details for all **valid** employees to `output.txt` in the format `ID: [id], Name: [name], Final Salary: [salary]`.
+4.  **Exception Handling:** The main logic must gracefully handle `FileNotFoundException`, general `IOException`, and the custom `InvalidSalaryException`. Invalid records should be reported on the console and skipped.
+
+-----
+
+### Answer Key / Guide
+
+First, you'll need to create a sample `input.txt` file in the same directory as your Java files.
+
+**`input.txt`:**
+
+```
+101,Alice,50000
+102,Bob,60000
+103,Charlie,-15000
+104,Diana,75000
+```
+
+Now, here is the complete Java code solution, broken into three parts.
+
+#### 1\. Custom Exception Class (`InvalidSalaryException.java`)
+
+This class defines our custom exception.
+
+```java
+// A custom checked exception for invalid salary data.
+public class InvalidSalaryException extends Exception {
+    public InvalidSalaryException(String message) {
+        super(message);
+    }
+}
+```
+
+#### 2\. Employee Class (`Employee.java`)
+
+This class represents an employee and contains the validation logic.
+
+```java
+public class Employee {
+    int id;
+    String name;
+    double baseSalary;
+
+    // Constructor throws the custom exception if salary is invalid.
+    public Employee(int id, String name, double baseSalary) throws InvalidSalaryException {
+        if (baseSalary < 0) {
+            throw new InvalidSalaryException("Salary cannot be negative. Invalid record for ID: " + id);
+        }
+        this.id = id;
+        this.name = name;
+        this.baseSalary = baseSalary;
+    }
+
+    // Calculates the final salary with a 10% bonus.
+    public double calculateFinalSalary() {
+        return baseSalary + (0.10 * baseSalary);
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name + ", Final Salary: " + calculateFinalSalary();
+    }
+}
+```
+
+#### 3\. Main Processing Class (`PayrollProcessor.java`)
+
+This class handles reading the input file, processing the data, and writing to the output file.
+
+```java
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PayrollProcessor {
+    public static void main(String[] args) {
+        String inputFile = "input.txt";
+        String outputFile = "output.txt";
+        List<Employee> validEmployees = new ArrayList<>();
+
+        // Reading from the file using try-with-resources
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+            String line;
+            System.out.println("Reading from " + inputFile + "...");
+
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                try {
+                    int id = Integer.parseInt(parts[0]);
+                    String name = parts[1];
+                    double salary = Double.parseDouble(parts[2]);
+
+                    // Create Employee object, which might throw InvalidSalaryException
+                    validEmployees.add(new Employee(id, name, salary));
+
+                } catch (InvalidSalaryException e) {
+                    // Handle our custom exception for invalid salary
+                    System.err.println("Skipping record due to error: " + e.getMessage());
+                } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                    // Handle malformed lines in the input file
+                    System.err.println("Skipping malformed line: \"" + line + "\"");
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: Input file not found: " + inputFile);
+            return; // Exit if the input file isn't there
+        } catch (IOException e) {
+            System.err.println("An error occurred while reading the file.");
+            e.printStackTrace();
+            return;
+        }
+
+        // Writing to the file using try-with-resources
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
+            System.out.println("\nWriting valid payroll data to " + outputFile + "...");
+            for (Employee emp : validEmployees) {
+                writer.write(emp.toString());
+                writer.newLine(); // Adds a new line after each employee record
+            }
+            System.out.println("Processing complete.");
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file.");
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Expected Output
+
+When you run `PayrollProcessor.java`, you will see this in your console:
+
+```
+Reading from input.txt...
+Skipping record due to error: Salary cannot be negative. Invalid record for ID: 103
+
+Writing valid payroll data to output.txt...
+Processing complete.
+```
+
+And a new file, `output.txt`, will be created with the following content:
+**`output.txt`:**
+
+```
+ID: 101, Name: Alice, Final Salary: 55000.0
+ID: 102, Name: Bob, Final Salary: 66000.0
+ID: 104, Name: Diana, Final Salary: 82500.0
+```
+
+
+
+
