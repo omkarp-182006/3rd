@@ -1,0 +1,1504 @@
+Type 1: OOP & Inheritance (15-Mark Questions)
+These questions test your understanding of class hierarchies, inheritance, method overriding, and abstract concepts. The most likely scenario involves a base class with common features and subclasses with specialized behaviors.
+
+⭐ Question 1: Employee Salary System (HIGH PROBABILITY)
+
+Why it's likely: This pattern is almost identical to the 15-mark OOP question in your practice paper. It's the most common way to test inheritance, overriding, and constructor chaining.
+
+Problem: A company calculates salaries for different roles. Create a base class Employee with attributes id, name, and baseSalary. Create two subclasses, Manager and Developer.
+
+Manager: Salary is calculated as baseSalary + 20% of baseSalary as allowance.
+
+Developer: Salary is calculated as baseSalary + 10% of baseSalary as bonus.
+Implement the class structure to display the details and final salary for a manager and a developer.
+
+Answer:
+
+Java
+
+// Base Class (Parent)
+class Employee {
+    protected int id;
+    protected String name;
+    protected double baseSalary;
+
+    // Constructor for the base class
+    public Employee(int id, String name, double baseSalary) {
+        this.id = id;
+        this.name = name;
+        this.baseSalary = baseSalary;
+    }
+
+    // General method to be overridden
+    public double calculateSalary() {
+        return baseSalary;
+    }
+
+    // Display method
+    public void display() {
+        System.out.println("ID: " + id + ", Name: " + name + ", Final Salary: " + calculateSalary());
+    }
+}
+
+// Subclass 1
+class Manager extends Employee {
+    // Constructor uses super() to call the parent constructor
+    public Manager(int id, String name, double baseSalary) {
+        super(id, name, baseSalary);
+    }
+
+    // Override the method with manager-specific logic
+    @Override
+    public double calculateSalary() {
+        return baseSalary + (baseSalary * 0.20); // 20% allowance
+    }
+}
+
+// Subclass 2
+class Developer extends Employee {
+    public Developer(int id, String name, double baseSalary) {
+        super(id, name, baseSalary);
+    }
+
+    // Override the method with developer-specific logic
+    @Override
+    public double calculateSalary() {
+        return baseSalary + (baseSalary * 0.10); // 10% bonus
+    }
+}
+
+// Main class to test the implementation
+public class CompanySystem {
+    public static void main(String[] args) {
+        Employee manager = new Manager(101, "Alice", 80000);
+        Employee developer = new Developer(202, "Bob", 60000);
+
+        System.out.println("--- Manager Details ---");
+        manager.display();
+
+        System.out.println("\n--- Developer Details ---");
+        developer.display();
+    }
+}
+⭐ Question 2: Shape Area Calculator (HIGH PROBABILITY)
+Why it's likely: This question tests abstract classes, a core OOP concept that frequently appears in exams to ensure you understand when and why a class cannot be instantiated.
+
+Problem: Create an abstract class Shape with an abstract method calculateArea() and a regular method display(). Create two subclasses, Circle (with radius) and Rectangle (with width and height). Implement the calculateArea() method in each subclass and use the display() method to show the result.
+
+Answer:
+
+Java
+
+// Abstract Base Class
+abstract class Shape {
+    // Abstract method must be implemented by subclasses
+    abstract double calculateArea();
+
+    public void display() {
+        System.out.println("The calculated area is: " + calculateArea());
+    }
+}
+
+// Subclass 1
+class Circle extends Shape {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+}
+
+// Subclass 2
+class Rectangle extends Shape {
+    private double width;
+    private double height;
+
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    @Override
+    double calculateArea() {
+        return width * height;
+    }
+}
+
+// Main Class
+public class ShapeCalculator {
+    public static void main(String[] args) {
+        Shape circle = new Circle(7);
+        Shape rectangle = new Rectangle(10, 5);
+
+        System.out.print("Circle -> ");
+        circle.display();
+
+        System.out.print("Rectangle -> ");
+        rectangle.display();
+    }
+}
+Question 3: Bank Account System
+Why it's relevant: This is a classic, practical example of inheritance that models a real-world system, making it a good candidate for exam questions.
+
+Problem: Design a system for a bank. Create a base class Account with accountNumber and balance. Create subclasses SavingsAccount and CheckingAccount. Override the withdraw(double amount) method:
+
+SavingsAccount: Cannot withdraw if the resulting balance would be less than 1000.
+
+CheckingAccount: Can withdraw up to an overdraft limit of 500 (balance can go to -500).
+
+Answer:
+
+Java
+
+class Account {
+    protected int accountNumber;
+    protected double balance;
+
+    public Account(int accountNumber, double balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+
+    public void withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            System.out.println(amount + " withdrawn. New balance: " + balance);
+        } else {
+            System.out.println("Insufficient funds.");
+        }
+    }
+}
+
+class SavingsAccount extends Account {
+    public SavingsAccount(int accNum, double bal) { super(accNum, bal); }
+
+    @Override
+    public void withdraw(double amount) {
+        if ((balance - amount) >= 1000) {
+            balance -= amount;
+            System.out.println("Savings Withdrawal Successful. New Balance: " + balance);
+        } else {
+            System.out.println("Savings Withdrawal Failed. Minimum balance of 1000 required.");
+        }
+    }
+}
+
+class CheckingAccount extends Account {
+    private double overdraftLimit = 500;
+    public CheckingAccount(int accNum, double bal) { super(accNum, bal); }
+
+    @Override
+    public void withdraw(double amount) {
+        if ((balance - amount) >= -overdraftLimit) {
+            balance -= amount;
+            System.out.println("Checking Withdrawal Successful. New Balance: " + balance);
+        } else {
+            System.out.println("Checking Withdrawal Failed. Overdraft limit exceeded.");
+        }
+    }
+}
+
+public class BankSystem {
+    public static void main(String[] args) {
+        Account savings = new SavingsAccount(101, 5000);
+        Account checking = new CheckingAccount(102, 1000);
+        savings.withdraw(4500); // Fails
+        checking.withdraw(1200); // Succeeds
+    }
+}
+Type 2: Swing GUI & Event Handling (15-Mark Questions)
+Your exam will have a question requiring you to build a simple graphical application. Focus on setting up the frame, adding components, and making buttons functional with ActionListener.
+
+⭐ Question 4: Simple Calculator (HIGH PROBABILITY)
+Why it's likely: This is the quintessential GUI exam question. It tests your ability to handle user input from multiple fields, perform calculations, and display a result, covering all core GUI concepts.
+
+Problem: Create a Swing application with two JTextField components for numbers, four buttons for "Add", "Subtract", "Multiply", and "Divide", and a JLabel to display the result.
+
+Answer:
+
+Java
+
+import javax.swing.*;
+
+public class SimpleCalculator {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Simple Calculator");
+        f.setSize(400, 300);
+        f.setLayout(null);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JTextField num1Field = new JTextField();
+        num1Field.setBounds(50, 30, 100, 30);
+        JTextField num2Field = new JTextField();
+        num2Field.setBounds(200, 30, 100, 30);
+
+        JButton addBtn = new JButton("+"); addBtn.setBounds(50, 80, 60, 30);
+        JButton subBtn = new JButton("-"); subBtn.setBounds(120, 80, 60, 30);
+        JButton mulBtn = new JButton("*"); mulBtn.setBounds(190, 80, 60, 30);
+        JButton divBtn = new JButton("/"); divBtn.setBounds(260, 80, 60, 30);
+
+        JLabel resultLabel = new JLabel("Result: ");
+        resultLabel.setBounds(150, 130, 150, 30);
+
+        addBtn.addActionListener(e -> calculate(num1Field, num2Field, resultLabel, '+'));
+        subBtn.addActionListener(e -> calculate(num1Field, num2Field, resultLabel, '-'));
+        mulBtn.addActionListener(e -> calculate(num1Field, num2Field, resultLabel, '*'));
+        divBtn.addActionListener(e -> calculate(num1Field, num2Field, resultLabel, '/'));
+
+        f.add(num1Field); f.add(num2Field); f.add(addBtn); f.add(subBtn);
+        f.add(mulBtn); f.add(divBtn); f.add(resultLabel);
+        f.setVisible(true);
+    }
+
+    public static void calculate(JTextField f1, JTextField f2, JLabel res, char op) {
+        try {
+            double num1 = Double.parseDouble(f1.getText());
+            double num2 = Double.parseDouble(f2.getText());
+            double result = 0;
+            switch (op) {
+                case '+': result = num1 + num2; break;
+                case '-': result = num1 - num2; break;
+                case '*': result = num1 * num2; break;
+                case '/': result = num1 / num2; break;
+            }
+            res.setText("Result: " + result);
+        } catch (Exception ex) {
+            res.setText("Invalid Input!");
+        }
+    }
+}
+⭐ Question 5: Login Form (HIGH PROBABILITY)
+Why it's likely: This tests handling different types of text fields (including JPasswordField), string comparison, and conditional logic within an event handler, making it a comprehensive and practical GUI problem.
+
+Problem: Create a login window with JLabels for "Username" and "Password," JTextFields for input, and a JButton for "Login." If the username is "admin" and the password is "pass123," a JLabel should display "Login Successful." Otherwise, it should display "Login Failed."
+
+Answer:
+
+Java
+
+import javax.swing.*;
+
+public class LoginForm {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Login");
+        f.setSize(400, 300);
+        f.setLayout(null);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel userLabel = new JLabel("Username:");
+        userLabel.setBounds(50, 50, 80, 30);
+        JTextField userField = new JTextField();
+        userField.setBounds(140, 50, 150, 30);
+
+        JLabel passLabel = new JLabel("Password:");
+        passLabel.setBounds(50, 100, 80, 30);
+        JPasswordField passField = new JPasswordField();
+        passField.setBounds(140, 100, 150, 30);
+
+        JButton loginButton = new JButton("Login");
+        loginButton.setBounds(140, 150, 100, 30);
+
+        JLabel messageLabel = new JLabel("");
+        messageLabel.setBounds(140, 200, 150, 30);
+
+        loginButton.addActionListener(e -> {
+            String username = userField.getText();
+            String password = new String(passField.getPassword());
+            if (username.equals("admin") && password.equals("pass123")) {
+                messageLabel.setText("Login Successful!");
+            } else {
+                messageLabel.setText("Login Failed!");
+            }
+        });
+
+        f.add(userLabel); f.add(userField); f.add(passLabel); f.add(passField);
+        f.add(loginButton); f.add(messageLabel);
+        f.setVisible(true);
+    }
+}
+Type 3: Arrays, Loops & Conditionals (10-Mark Questions)
+These questions focus on fundamental logic. Expect to read input from the console, loop through data (arrays or strings), and perform calculations or manipulations.
+
+⭐ Question 6: Array Analysis (HIGH PROBABILITY)
+
+Why it's likely: This question is a direct reflection of the 10-mark problem in your practice paper. It combines array input, looping, and multiple conditional checks, which is perfect for a 10-mark question.
+
+
+Problem: Take an array of integers as input from the user. Calculate and display:
+
+The sum of all even numbers.
+
+The count of all odd numbers.
+
+The largest number in the array.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+
+public class ArrayAnalysis {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter array size: ");
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter " + n + " elements:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        int sumOfEvens = 0;
+        int countOfOdds = 0;
+        int maxNumber = Integer.MIN_VALUE;
+
+        if (n > 0) {
+            maxNumber = arr[0];
+            for (int num : arr) {
+                if (num % 2 == 0) {
+                    sumOfEvens += num;
+                } else {
+                    countOfOdds++;
+                }
+                if (num > maxNumber) {
+                    maxNumber = num;
+                }
+            }
+        }
+
+        System.out.println("Sum of even numbers: " + sumOfEvens);
+        System.out.println("Count of odd numbers: " + countOfOdds);
+        System.out.println("Largest number: " + maxNumber);
+        sc.close();
+    }
+}
+⭐ Question 7: String Palindrome Checker (HIGH PROBABILITY)
+Why it's likely: This is a classic computer science problem that tests string manipulation, loops, and conditional logic in a concise way. It's a favorite for testing fundamental skills.
+
+Problem: Take a string as input from the user and check if it is a palindrome (reads the same forwards and backwards), ignoring case and spaces. For example, "A man a plan a canal Panama" should be considered a palindrome.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+
+public class PalindromeChecker {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        
+        // Pre-process the string: remove spaces and convert to lower case
+        String original = sc.nextLine().replaceAll("\\s+", "").toLowerCase();
+        
+        boolean isPalindrome = true;
+        int left = 0;
+        int right = original.length() - 1;
+
+        while (left < right) {
+            if (original.charAt(left) != original.charAt(right)) {
+                isPalindrome = false;
+                break;
+            }
+            left++;
+            right--;
+        }
+
+        if (isPalindrome) {
+            System.out.println("The string is a palindrome.");
+        } else {
+            System.out.println("The string is not a palindrome.");
+        }
+        sc.close();
+    }
+}
+
+
+
+
+
+
+
+give me 15 question for each 3 types
+
+
+
+Show thinking
+Of course. Here is a comprehensive list of 15 practice questions and answers for each of the three main types you can expect on your exam.
+
+Type 1: OOP & Inheritance (15-Mark Questions)
+These questions focus on creating class hierarchies to model real-world scenarios, emphasizing inheritance, method overriding, and abstract concepts.
+
+Question 1.1: Employee Salary System
+Problem: A company calculates salaries for different roles. Create a base class Employee with id, name, and baseSalary. Create two subclasses, Manager and Developer.
+
+Manager: Salary = baseSalary + 20% allowance.
+
+Developer: Salary = baseSalary + 10% bonus.
+Implement the structure to display the details and final salary for each role.
+
+Answer:
+
+Java
+
+class Employee {
+    protected int id;
+    protected String name;
+    protected double baseSalary;
+
+    public Employee(int id, String name, double baseSalary) {
+        this.id = id;
+        this.name = name;
+        this.baseSalary = baseSalary;
+    }
+
+    public double calculateSalary() { return baseSalary; }
+
+    public void display() {
+        System.out.println("ID: " + id + ", Name: " + name + ", Final Salary: " + calculateSalary());
+    }
+}
+
+class Manager extends Employee {
+    public Manager(int id, String name, double baseSalary) { super(id, name, baseSalary); }
+    @Override
+    public double calculateSalary() { return baseSalary + (baseSalary * 0.20); }
+}
+
+class Developer extends Employee {
+    public Developer(int id, String name, double baseSalary) { super(id, name, baseSalary); }
+    @Override
+    public double calculateSalary() { return baseSalary + (baseSalary * 0.10); }
+}
+
+public class CompanySystem {
+    public static void main(String[] args) {
+        Employee manager = new Manager(101, "Alice", 80000);
+        Employee developer = new Developer(202, "Bob", 60000);
+        manager.display();
+        developer.display();
+    }
+}
+Question 1.2: Shape Area Calculator
+Problem: Create an abstract class Shape with an abstract method calculateArea(). Create two subclasses, Circle (with radius) and Rectangle (with width, height). Implement calculateArea() in each subclass.
+
+Answer:
+
+Java
+
+abstract class Shape {
+    abstract double calculateArea();
+    public void display() { System.out.println("Area: " + calculateArea()); }
+}
+
+class Circle extends Shape {
+    private double radius;
+    public Circle(double radius) { this.radius = radius; }
+    @Override
+    double calculateArea() { return Math.PI * radius * radius; }
+}
+
+class Rectangle extends Shape {
+    private double width, height;
+    public Rectangle(double width, double height) { this.width = width; this.height = height; }
+    @Override
+    double calculateArea() { return width * height; }
+}
+
+public class ShapeCalculator {
+    public static void main(String[] args) {
+        Shape circle = new Circle(7);
+        Shape rectangle = new Rectangle(10, 5);
+        circle.display();
+        rectangle.display();
+    }
+}
+Question 1.3: Bank Account System
+Problem: Create a base class Account with accountNumber and balance. Create subclasses SavingsAccount and CheckingAccount. Override the withdraw(double amount) method:
+
+SavingsAccount: Cannot withdraw if the balance would drop below 1000.
+
+CheckingAccount: Can withdraw up to an overdraft limit of 500.
+
+Answer:
+
+Java
+
+class Account {
+    protected double balance;
+    public Account(double balance) { this.balance = balance; }
+    public void withdraw(double amount) {
+        if (amount <= balance) { balance -= amount; System.out.println("Success. New Balance: " + balance); }
+        else { System.out.println("Insufficient funds."); }
+    }
+}
+
+class SavingsAccount extends Account {
+    public SavingsAccount(double bal) { super(bal); }
+    @Override
+    public void withdraw(double amount) {
+        if ((balance - amount) >= 1000) { balance -= amount; System.out.println("Success. New Balance: " + balance); }
+        else { System.out.println("Failed. Minimum balance of 1000 required."); }
+    }
+}
+
+class CheckingAccount extends Account {
+    private double overdraftLimit = 500;
+    public CheckingAccount(double bal) { super(bal); }
+    @Override
+    public void withdraw(double amount) {
+        if ((balance - amount) >= -overdraftLimit) { balance -= amount; System.out.println("Success. New Balance: " + balance); }
+        else { System.out.println("Failed. Overdraft limit exceeded."); }
+    }
+}
+Question 1.4: Vehicle Rental System
+Problem: Create a base class Vehicle with brand and baseRate. Subclasses Car and Motorcycle calculate rental cost differently:
+
+Car: cost = baseRate * days.
+
+Motorcycle: cost = (baseRate * days) * 0.80 (20% discount).
+Implement a calculateRent(int days) method.
+
+Answer:
+
+Java
+
+class Vehicle {
+    protected String brand;
+    protected double baseRate;
+    public Vehicle(String brand, double baseRate) { this.brand = brand; this.baseRate = baseRate; }
+    public double calculateRent(int days) { return baseRate * days; }
+}
+
+class Car extends Vehicle {
+    public Car(String brand, double baseRate) { super(brand, baseRate); }
+}
+
+class Motorcycle extends Vehicle {
+    public Motorcycle(String brand, double baseRate) { super(brand, baseRate); }
+    @Override
+    public double calculateRent(int days) { return (baseRate * days) * 0.80; }
+}
+Question 1.5: Animal Kingdom
+Problem: Create an abstract class Animal with an abstract method makeSound(). Create subclasses Dog, Cat, and Cow that implement the method to print "Woof", "Meow", and "Moo".
+
+Answer:
+
+Java
+
+abstract class Animal { abstract void makeSound(); }
+class Dog extends Animal { @Override void makeSound() { System.out.println("Woof"); } }
+class Cat extends Animal { @Override void makeSound() { System.out.println("Meow"); } }
+class Cow extends Animal { @Override void makeSound() { System.out.println("Moo"); } }
+Question 1.6: Digital Library
+Problem: Base class MediaItem has title. Subclasses Book (with pageCount) and AudioBook (with durationInMinutes) override a displayDetails() method.
+
+Answer:
+
+Java
+
+class MediaItem {
+    protected String title;
+    public MediaItem(String title) { this.title = title; }
+    public void displayDetails() { System.out.println("Title: " + title); }
+}
+class Book extends MediaItem {
+    private int pageCount;
+    public Book(String title, int pages) { super(title); this.pageCount = pages; }
+    @Override
+    public void displayDetails() { super.displayDetails(); System.out.println("Pages: " + pageCount); }
+}
+class AudioBook extends MediaItem {
+    private double durationInMinutes;
+    public AudioBook(String title, double duration) { super(title); this.durationInMinutes = duration; }
+    @Override
+    public void displayDetails() { super.displayDetails(); System.out.println("Duration: " + durationInMinutes + " mins"); }
+}
+Question 1.7: University System
+Problem: Base class Person has name. Subclasses Student (with studentId) and Professor (with employeeId) override getDetails().
+
+Answer:
+
+Java
+
+class Person {
+    protected String name;
+    public Person(String name) { this.name = name; }
+    public void getDetails() { System.out.println("Name: " + name); }
+}
+class Student extends Person {
+    private int studentId;
+    public Student(String name, int id) { super(name); this.studentId = id; }
+    @Override
+    public void getDetails() { System.out.println("Student Name: " + name + ", ID: " + studentId); }
+}
+class Professor extends Person {
+    private int employeeId;
+    public Professor(String name, int id) { super(name); this.employeeId = id; }
+    @Override
+    public void getDetails() { System.out.println("Professor Name: " + name + ", ID: " + employeeId); }
+}
+Question 1.8: Payment Gateway
+Problem: Create an interface PaymentMethod with a method pay(double amount). Implement it in classes CreditCard (with cardNumber) and PayPal (with email).
+
+Answer:
+
+Java
+
+interface PaymentMethod { void pay(double amount); }
+class CreditCard implements PaymentMethod {
+    private String cardNumber;
+    public CreditCard(String cn) { this.cardNumber = cn; }
+    @Override
+    public void pay(double amount) { System.out.println("Paid " + amount + " via Credit Card " + cardNumber); }
+}
+class PayPal implements PaymentMethod {
+    private String email;
+    public PayPal(String email) { this.email = email; }
+    @Override
+    public void pay(double amount) { System.out.println("Paid " + amount + " via PayPal " + email); }
+}
+Question 1.9: Food Delivery Service
+Problem: Base class Restaurant has name. Subclasses FastFood and FineDining override calculateBill(double total):
+
+FastFood: bill = total + 5% GST.
+
+FineDining: bill = total + 18% GST + 200 serviceCharge.
+
+Answer:
+
+Java
+
+class Restaurant {
+    public double calculateBill(double total) { return total; }
+}
+class FastFood extends Restaurant {
+    @Override
+    public double calculateBill(double total) { return total + (total * 0.05); }
+}
+class FineDining extends Restaurant {
+    @Override
+    public double calculateBill(double total) { return total + (total * 0.18) + 200; }
+}
+Question 1.10: File System
+Problem: Base class File has fileName. Subclasses TextFile (with wordCount) and ImageFile (with resolution) override getDetails().
+
+Answer:
+
+Java
+
+class File {
+    protected String fileName;
+    public File(String name) { this.fileName = name; }
+    public void getDetails() { System.out.println("File: " + fileName); }
+}
+class TextFile extends File {
+    private int wordCount;
+    public TextFile(String name, int wc) { super(name); this.wordCount = wc; }
+    @Override
+    public void getDetails() { super.getDetails(); System.out.println("Words: " + wordCount); }
+}
+class ImageFile extends File {
+    private String resolution;
+    public ImageFile(String name, String res) { super(name); this.resolution = res; }
+    @Override
+    public void getDetails() { super.getDetails(); System.out.println("Resolution: " + resolution); }
+}
+Question 1.11: Musical Instruments
+Problem: abstract class Instrument has abstract method play(). Subclasses Guitar (with numberOfStrings) and Piano (with numberOfKeys) implement play().
+
+Answer:
+
+Java
+
+abstract class Instrument { abstract void play(); }
+class Guitar extends Instrument {
+    private int numberOfStrings;
+    public Guitar(int s) { this.numberOfStrings = s; }
+    @Override
+    void play() { System.out.println("Playing a " + numberOfStrings + "-string Guitar."); }
+}
+class Piano extends Instrument {
+    private int numberOfKeys;
+    public Piano(int k) { this.numberOfKeys = k; }
+    @Override
+    void play() { System.out.println("Playing an " + numberOfKeys + "-key Piano."); }
+}
+Question 1.12: Course Management
+Problem: Base class Course has courseCode. Subclasses OnlineCourse (with platform) and OfflineCourse (with classroomNumber) override displayInfo().
+
+Answer:
+
+Java
+
+class Course {
+    protected String courseCode;
+    public Course(String code) { this.courseCode = code; }
+    public void displayInfo() { System.out.println("Code: " + courseCode); }
+}
+class OnlineCourse extends Course {
+    private String platform;
+    public OnlineCourse(String code, String p) { super(code); this.platform = p; }
+    @Override
+    public void displayInfo() { super.displayInfo(); System.out.println("Platform: " + platform); }
+}
+class OfflineCourse extends Course {
+    private String classroomNumber;
+    public OfflineCourse(String code, String r) { super(code); this.classroomNumber = r; }
+    @Override
+    public void displayInfo() { super.displayInfo(); System.out.println("Classroom: " + classroomNumber); }
+}
+Question 1.13: Mobile Phone Plans
+Problem: Base class Plan has monthlyCost. Subclasses PrepaidPlan (with dataBalance) and PostpaidPlan (with billDueDate) override displayPlan().
+
+Answer:
+
+Java
+
+class Plan {
+    protected double monthlyCost;
+    public Plan(double cost) { this.monthlyCost = cost; }
+    public void displayPlan() { System.out.println("Cost: " + monthlyCost); }
+}
+class PrepaidPlan extends Plan {
+    private double dataBalance;
+    public PrepaidPlan(double cost, double data) { super(cost); this.dataBalance = data; }
+    @Override
+    public void displayPlan() { super.displayPlan(); System.out.println("Data: " + dataBalance + " GB"); }
+}
+class PostpaidPlan extends Plan {
+    private String billDueDate;
+    public PostpaidPlan(double cost, String date) { super(cost); this.billDueDate = date; }
+    @Override
+    public void displayPlan() { super.displayPlan(); System.out.println("Due Date: " + billDueDate); }
+}
+Question 1.14: Ticket Booking System
+Problem: Base class Ticket has price. Subclasses MovieTicket (with movieName) and FlightTicket (with destination) override printTicket().
+
+Answer:
+
+Java
+
+class Ticket {
+    protected double price;
+    public Ticket(double price) { this.price = price; }
+    public void printTicket() { System.out.println("Price: " + price); }
+}
+class MovieTicket extends Ticket {
+    private String movieName;
+    public MovieTicket(double p, String m) { super(p); this.movieName = m; }
+    @Override
+    public void printTicket() { super.printTicket(); System.out.println("Movie: " + movieName); }
+}
+class FlightTicket extends Ticket {
+    private String destination;
+    public FlightTicket(double p, String d) { super(p); this.destination = d; }
+    @Override
+    public void printTicket() { super.printTicket(); System.out.println("Destination: " + destination); }
+}
+Question 1.15: Custom Exception
+Problem: Create a custom exception InvalidAgeException. A Person class constructor should throw this exception if the age passed is less than 0. Handle it in main.
+
+Answer:
+
+Java
+
+class InvalidAgeException extends Exception {
+    public InvalidAgeException(String message) { super(message); }
+}
+class Person {
+    public Person(String name, int age) throws InvalidAgeException {
+        if (age < 0) { throw new InvalidAgeException("Age cannot be negative."); }
+    }
+}
+public class CustomExceptionDemo {
+    public static void main(String[] args) {
+        try {
+            Person p = new Person("Test", -5);
+        } catch (InvalidAgeException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+Type 2: Swing GUI & Event Handling (15-Mark Questions)
+These questions test your ability to build simple graphical interfaces and handle user actions like button clicks.
+
+Question 2.1: Simple Calculator
+Problem: Create a GUI with two JTextFields for numbers, one JButton for "Add", and a JLabel to display the sum.
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class SimpleCalculator {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Adder");
+        f.setSize(350, 200); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextField tf1 = new JTextField(); tf1.setBounds(50, 30, 100, 30);
+        JTextField tf2 = new JTextField(); tf2.setBounds(180, 30, 100, 30);
+        JButton btn = new JButton("Add"); btn.setBounds(125, 80, 80, 30);
+        JLabel lbl = new JLabel("Result:"); lbl.setBounds(150, 130, 100, 30);
+        btn.addActionListener(e -> {
+            try {
+                int n1 = Integer.parseInt(tf1.getText());
+                int n2 = Integer.parseInt(tf2.getText());
+                lbl.setText("Result: " + (n1 + n2));
+            } catch (Exception ex) { lbl.setText("Invalid!"); }
+        });
+        f.add(tf1); f.add(tf2); f.add(btn); f.add(lbl);
+        f.setVisible(true);
+    }
+}
+Question 2.2: Word Counter
+Problem: Create a GUI with a JTextArea, a JButton "Count Words", and a JLabel to show the word count.
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class WordCounter {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Word Counter");
+        f.setSize(400, 300); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextArea ta = new JTextArea(); ta.setBounds(50, 30, 300, 100);
+        JButton btn = new JButton("Count Words"); btn.setBounds(125, 150, 150, 30);
+        JLabel lbl = new JLabel("Word Count: 0"); lbl.setBounds(150, 200, 150, 30);
+        btn.addActionListener(e -> {
+            String text = ta.getText();
+            if (text.trim().isEmpty()) { lbl.setText("Word Count: 0"); }
+            else { lbl.setText("Word Count: " + text.trim().split("\\s+").length); }
+        });
+        f.add(ta); f.add(btn); f.add(lbl);
+        f.setVisible(true);
+    }
+}
+Question 2.3: Character Counter
+Problem: Create a GUI with a JTextField, two buttons "Count Vowels" and "Count Consonants", and a JLabel to display the result.
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class CharCounterGUI {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Char Counter");
+        f.setSize(450, 250); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextField tf = new JTextField(); tf.setBounds(50, 30, 350, 30);
+        JButton vBtn = new JButton("Vowels"); vBtn.setBounds(80, 80, 100, 30);
+        JButton cBtn = new JButton("Consonants"); cBtn.setBounds(220, 80, 120, 30);
+        JLabel lbl = new JLabel("Result:"); lbl.setBounds(180, 130, 150, 30);
+        vBtn.addActionListener(e -> {
+            int count = 0;
+            for (char c : tf.getText().toLowerCase().toCharArray()) if ("aeiou".indexOf(c) != -1) count++;
+            lbl.setText("Vowels: " + count);
+        });
+        cBtn.addActionListener(e -> {
+            int count = 0;
+            for (char c : tf.getText().toLowerCase().toCharArray()) if (c >= 'a' && c <= 'z' && "aeiou".indexOf(c) == -1) count++;
+            lbl.setText("Consonants: " + count);
+        });
+        f.add(tf); f.add(vBtn); f.add(cBtn); f.add(lbl);
+        f.setVisible(true);
+    }
+}
+Question 2.4: Login Form
+Problem: Create a login window with fields for "Username" (JTextField), "Password" (JPasswordField), and a "Login" button. Display "Success" or "Failed" in a JLabel. (user: "admin", pass: "123").
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class LoginForm {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Login");
+        f.setSize(400, 300); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextField userField = new JTextField(); userField.setBounds(140, 50, 150, 30);
+        JPasswordField passField = new JPasswordField(); passField.setBounds(140, 100, 150, 30);
+        JButton loginBtn = new JButton("Login"); loginBtn.setBounds(140, 150, 100, 30);
+        JLabel msgLabel = new JLabel(""); msgLabel.setBounds(140, 200, 150, 30);
+        loginBtn.addActionListener(e -> {
+            if (userField.getText().equals("admin") && new String(passField.getPassword()).equals("123")) msgLabel.setText("Success!");
+            else msgLabel.setText("Failed!");
+        });
+        f.add(new JLabel("Username:")).setBounds(50, 50, 80, 30);
+        f.add(new JLabel("Password:")).setBounds(50, 100, 80, 30);
+        f.add(userField); f.add(passField); f.add(loginBtn); f.add(msgLabel);
+        f.setVisible(true);
+    }
+}
+Question 2.5: Color Changer
+Problem: Create a GUI with three buttons: "Red", "Green", "Blue". Clicking a button changes the frame's background color.
+
+Answer:
+
+Java
+
+import javax.swing.*;
+import java.awt.Color;
+public class ColorChanger {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Color Changer");
+        f.setSize(400, 200); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JButton r = new JButton("Red"); r.setBounds(50, 50, 80, 30);
+        JButton g = new JButton("Green"); g.setBounds(150, 50, 80, 30);
+        JButton b = new JButton("Blue"); b.setBounds(250, 50, 80, 30);
+        r.addActionListener(e -> f.getContentPane().setBackground(Color.RED));
+        g.addActionListener(e -> f.getContentPane().setBackground(Color.GREEN));
+        b.addActionListener(e -> f.getContentPane().setBackground(Color.BLUE));
+        f.add(r); f.add(g); f.add(b);
+        f.setVisible(true);
+    }
+}
+Question 2.6: Simple Interest Calculator
+Problem: GUI to calculate simple interest with JTextFields for Principal, Rate, and Time. A button "Calculate" displays the result in a JLabel.
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class SICalculator {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("SI Calculator");
+        f.setSize(400, 300); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextField p = new JTextField("P"); p.setBounds(50, 30, 80, 30);
+        JTextField r = new JTextField("R"); r.setBounds(150, 30, 80, 30);
+        JTextField t = new JTextField("T"); t.setBounds(250, 30, 80, 30);
+        JButton btn = new JButton("Calculate"); btn.setBounds(125, 80, 100, 30);
+        JLabel lbl = new JLabel("SI: "); lbl.setBounds(150, 130, 150, 30);
+        btn.addActionListener(e -> {
+            try {
+                double pa=Double.parseDouble(p.getText()), ra=Double.parseDouble(r.getText()), ti=Double.parseDouble(t.getText());
+                lbl.setText("SI: " + (pa * ra * ti) / 100);
+            } catch (Exception ex) { lbl.setText("Invalid!"); }
+        });
+        f.add(p); f.add(r); f.add(t); f.add(btn); f.add(lbl);
+        f.setVisible(true);
+    }
+}
+Question 2.7: GUI Palindrome Checker
+Problem: GUI with a JTextField, a JButton "Check", and a JLabel to indicate if the string is a palindrome.
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class GUIPalindrome {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Palindrome Checker");
+        f.setSize(400, 200); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextField tf = new JTextField(); tf.setBounds(50, 30, 300, 30);
+        JButton btn = new JButton("Check"); btn.setBounds(150, 80, 100, 30);
+        JLabel lbl = new JLabel("Result"); lbl.setBounds(170, 130, 150, 30);
+        btn.addActionListener(e -> {
+            String s = tf.getText();
+            String rev = new StringBuilder(s).reverse().toString();
+            if (s.equalsIgnoreCase(rev)) lbl.setText("Palindrome!");
+            else lbl.setText("Not a Palindrome.");
+        });
+        f.add(tf); f.add(btn); f.add(lbl);
+        f.setVisible(true);
+    }
+}
+Question 2.8: Random Number Generator
+Problem: GUI with a JButton "Generate" and a JLabel. Clicking the button displays a random number (1-100) in the label.
+
+Answer:
+
+Java
+
+import javax.swing.*;
+import java.util.Random;
+public class RandomGUI {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Random Number");
+        f.setSize(300, 200); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JButton btn = new JButton("Generate"); btn.setBounds(100, 30, 100, 30);
+        JLabel lbl = new JLabel("Click button"); lbl.setBounds(110, 80, 150, 30);
+        btn.addActionListener(e -> lbl.setText("Number: " + (new Random().nextInt(100) + 1)));
+        f.add(btn); f.add(lbl);
+        f.setVisible(true);
+    }
+}
+Question 2.9: User Registration
+Problem: GUI with JTextFields for "Name", "Email", and a "Register" button. Clicking shows a JOptionPane confirmation message.
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class RegistrationForm {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Register");
+        f.setSize(400, 250); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextField nameField = new JTextField(); nameField.setBounds(140, 30, 200, 30);
+        JTextField emailField = new JTextField(); emailField.setBounds(140, 80, 200, 30);
+        JButton regBtn = new JButton("Register"); regBtn.setBounds(140, 130, 100, 30);
+        regBtn.addActionListener(e -> JOptionPane.showMessageDialog(f, "User " + nameField.getText() + " registered!"));
+        f.add(new JLabel("Name:")).setBounds(50, 30, 80, 30);
+        f.add(new JLabel("Email:")).setBounds(50, 80, 80, 30);
+        f.add(nameField); f.add(emailField); f.add(regBtn);
+        f.setVisible(true);
+    }
+}
+Question 2.10: Unit Converter (KM to Miles)
+Problem: GUI to convert KM to Miles. JTextField takes KM, JButton "Convert" shows miles in a JLabel. (1 km = 0.621371 miles).
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class UnitConverter {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("KM to Miles");
+        f.setSize(400, 200); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextField tf = new JTextField(); tf.setBounds(50, 30, 100, 30);
+        JButton btn = new JButton("Convert"); btn.setBounds(50, 80, 100, 30);
+        JLabel lbl = new JLabel("Result in Miles"); lbl.setBounds(170, 80, 200, 30);
+        btn.addActionListener(e -> {
+            try {
+                double km = Double.parseDouble(tf.getText());
+                lbl.setText(String.format("Result: %.2f Miles", km * 0.621371));
+            } catch (Exception ex) { lbl.setText("Invalid Input!"); }
+        });
+        f.add(new JLabel("KM")).setBounds(160, 30, 40, 30);
+        f.add(tf); f.add(btn); f.add(lbl);
+        f.setVisible(true);
+    }
+}
+Question 2.11: BMI Calculator
+Problem: GUI with JTextFields for height (m) and weight (kg). A JButton calculates and displays BMI in a JLabel. (BMI = weight / (height * height)).
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class BMICalculator {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("BMI Calculator");
+        f.setSize(400, 250); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextField hf = new JTextField(); hf.setBounds(140, 30, 150, 30);
+        JTextField wf = new JTextField(); wf.setBounds(140, 80, 150, 30);
+        JButton btn = new JButton("Calculate"); btn.setBounds(140, 130, 120, 30);
+        JLabel lbl = new JLabel("Your BMI:"); lbl.setBounds(140, 180, 200, 30);
+        btn.addActionListener(e -> {
+            try {
+                double h=Double.parseDouble(hf.getText()), w=Double.parseDouble(wf.getText());
+                lbl.setText(String.format("Your BMI is: %.2f", w / (h * h)));
+            } catch (Exception ex) { lbl.setText("Invalid Input!"); }
+        });
+        f.add(new JLabel("Height (m):")).setBounds(50, 30, 80, 30);
+        f.add(new JLabel("Weight (kg):")).setBounds(50, 80, 80, 30);
+        f.add(hf); f.add(wf); f.add(btn); f.add(lbl);
+        f.setVisible(true);
+    }
+}
+Question 2.12: Light Switch Simulator
+Problem: GUI with one JButton "Turn On". Clicking changes its text to "Turn Off" and the frame's background to yellow. Clicking again reverts it.
+
+Answer:
+
+Java
+
+import javax.swing.*;
+import java.awt.Color;
+public class LightSwitch {
+    static boolean isOn = false;
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Light Switch");
+        f.setSize(300, 200); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Color defaultColor = f.getContentPane().getBackground();
+        JButton btn = new JButton("Turn On"); btn.setBounds(100, 50, 100, 40);
+        btn.addActionListener(e -> {
+            isOn = !isOn;
+            if (isOn) { btn.setText("Turn Off"); f.getContentPane().setBackground(Color.YELLOW); }
+            else { btn.setText("Turn On"); f.getContentPane().setBackground(defaultColor); }
+        });
+        f.add(btn);
+        f.setVisible(true);
+    }
+}
+Question 2.13: Greeting App
+Problem: GUI with a JTextField for a name and a JButton "Greet". Clicking displays "Hello, [Name]!" in a JLabel.
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class GreetingApp {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Greeting App");
+        f.setSize(400, 200); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextField tf = new JTextField(); tf.setBounds(50, 30, 300, 30);
+        JButton btn = new JButton("Greet"); btn.setBounds(150, 80, 100, 30);
+        JLabel lbl = new JLabel("Enter your name."); lbl.setBounds(140, 130, 200, 30);
+        btn.addActionListener(e -> {
+            String name = tf.getText();
+            if (!name.trim().isEmpty()) lbl.setText("Hello, " + name + "!");
+        });
+        f.add(tf); f.add(btn); f.add(lbl);
+        f.setVisible(true);
+    }
+}
+Question 2.14: Simple Text Editor
+Problem: GUI with a JTextArea, and buttons "Clear" (empties the area) and "Count Chars" (displays character count in a JLabel).
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class SimpleTextEditor {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("Editor");
+        f.setSize(500, 400); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextArea ta = new JTextArea(); ta.setBounds(50, 30, 400, 200);
+        JButton clrBtn = new JButton("Clear"); clrBtn.setBounds(100, 250, 100, 30);
+        JButton cntBtn = new JButton("Count Chars"); cntBtn.setBounds(250, 250, 120, 30);
+        JLabel lbl = new JLabel("Count: 0"); lbl.setBounds(210, 300, 150, 30);
+        clrBtn.addActionListener(e -> ta.setText(""));
+        cntBtn.addActionListener(e -> lbl.setText("Count: " + ta.getText().length()));
+        f.add(ta); f.add(clrBtn); f.add(cntBtn); f.add(lbl);
+        f.setVisible(true);
+    }
+}
+Question 2.15: Temperature Converter
+Problem: GUI to convert Celsius to Fahrenheit. JTextField takes Celsius, a JButton shows Fahrenheit in a JLabel. (F = C * 9/5 + 32).
+
+Answer:
+
+Java
+
+import javax.swing.*;
+public class TempConverter {
+    public static void main(String[] args) {
+        JFrame f = new JFrame("C to F");
+        f.setSize(400, 200); f.setLayout(null); f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JTextField tf = new JTextField(); tf.setBounds(50, 30, 100, 30);
+        JButton btn = new JButton("Convert"); btn.setBounds(50, 80, 100, 30);
+        JLabel lbl = new JLabel("Result in F"); lbl.setBounds(170, 80, 200, 30);
+        btn.addActionListener(e -> {
+            try {
+                double c = Double.parseDouble(tf.getText());
+                lbl.setText(String.format("Result: %.2f F", (c * 9 / 5) + 32));
+            } catch (Exception ex) { lbl.setText("Invalid Input!"); }
+        });
+        f.add(new JLabel("Celsius")).setBounds(160, 30, 80, 30);
+        f.add(tf); f.add(btn); f.add(lbl);
+        f.setVisible(true);
+    }
+}
+Type 3: Arrays, Loops & Conditionals (10-Mark Questions)
+These questions test fundamental programming logic using console input and output.
+
+Question 3.1: Array Analysis
+Problem: Take an integer array as input. Calculate and display the sum of even numbers and the count of odd numbers.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class ArrayAnalysis {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size: ");
+        int n = sc.nextInt(); int[] arr = new int[n];
+        System.out.println("Enter elements:");
+        for(int i=0; i<n; i++) arr[i] = sc.nextInt();
+        int evenSum = 0, oddCount = 0;
+        for (int num : arr) {
+            if (num % 2 == 0) evenSum += num;
+            else oddCount++;
+        }
+        System.out.println("Sum of evens: " + evenSum);
+        System.out.println("Count of odds: " + oddCount);
+    }
+}
+Question 3.2: String Palindrome Checker
+Problem: Take a string as input and check if it is a palindrome.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class PalindromeCheck {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter string: ");
+        String s = sc.nextLine();
+        String rev = new StringBuilder(s).reverse().toString();
+        if (s.equalsIgnoreCase(rev)) System.out.println("Palindrome.");
+        else System.out.println("Not a Palindrome.");
+    }
+}
+Question 3.3: Prime Number Checker
+Problem: Take an integer as input and determine if it is a prime number.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class PrimeChecker {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number: ");
+        int num = sc.nextInt(); boolean isPrime = true;
+        if (num <= 1) isPrime = false;
+        else for (int i = 2; i <= Math.sqrt(num); i++) if (num % i == 0) { isPrime = false; break; }
+        if (isPrime) System.out.println(num + " is prime.");
+        else System.out.println(num + " is not prime.");
+    }
+}
+Question 3.4: Find Min and Max in Array
+Problem: Input an array of integers. Find and display the minimum and maximum numbers.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class FindMinMax {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size: ");
+        int n = sc.nextInt(); int[] arr = new int[n];
+        System.out.println("Enter elements:");
+        for(int i=0; i<n; i++) arr[i] = sc.nextInt();
+        if (n>0) {
+            int min = arr[0], max = arr[0];
+            for(int num : arr) {
+                if(num < min) min = num;
+                if(num > max) max = num;
+            }
+            System.out.println("Min: " + min + ", Max: " + max);
+        }
+    }
+}
+Question 3.5: String Reversal
+Problem: Take a string as input and print its reverse without using any built-in reverse methods.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class StringReverser {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter string: ");
+        String original = sc.nextLine(); String reversed = "";
+        for (int i = original.length() - 1; i >= 0; i--) reversed += original.charAt(i);
+        System.out.println("Reversed: " + reversed);
+    }
+}
+Question 3.6: Calculate Array Average
+Problem: Take an integer array as input. Calculate and print the average of its elements.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class ArrayAverage {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size: ");
+        int n = sc.nextInt(); int[] arr = new int[n]; double sum = 0;
+        System.out.println("Enter elements:");
+        for(int i=0; i<n; i++) { arr[i] = sc.nextInt(); sum += arr[i]; }
+        if (n > 0) System.out.println("Average: " + (sum / n));
+    }
+}
+Question 3.7: Count Character Occurrences
+Problem: Take a string and a character as input. Count how many times the character appears in the string (case-insensitive).
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class CharCounter {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter string: ");
+        String text = sc.nextLine().toLowerCase();
+        System.out.print("Enter character: ");
+        char target = sc.next().toLowerCase().charAt(0);
+        int count = 0;
+        for (char c : text.toCharArray()) if (c == target) count++;
+        System.out.println("Count: " + count);
+    }
+}
+Question 3.8: Fibonacci Series
+Problem: Take an integer N as input. Print the Fibonacci series up to the N-th term.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class Fibonacci {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of terms: ");
+        int n = sc.nextInt(); int t1 = 0, t2 = 1;
+        System.out.print("Series: ");
+        for (int i=1; i<=n; ++i) { System.out.print(t1 + " "); int sum = t1 + t2; t1 = t2; t2 = sum; }
+    }
+}
+Question 3.9: Anagram Checker
+Problem: Take two strings as input. Determine if they are anagrams.
+
+Answer:
+
+Java
+
+import java.util.Arrays;
+import java.util.Scanner;
+public class AnagramChecker {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter string 1: "); String s1 = sc.nextLine();
+        System.out.print("Enter string 2: "); String s2 = sc.nextLine();
+        char[] arr1 = s1.toLowerCase().toCharArray();
+        char[] arr2 = s2.toLowerCase().toCharArray();
+        Arrays.sort(arr1); Arrays.sort(arr2);
+        if (Arrays.equals(arr1, arr2)) System.out.println("Anagrams.");
+        else System.out.println("Not Anagrams.");
+    }
+}
+Question 3.10: Sum of Digits
+Problem: Take an integer as input and calculate the sum of its digits.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class SumOfDigits {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter an integer: ");
+        int num = sc.nextInt(); int sum = 0;
+        while (num != 0) { sum += num % 10; num /= 10; }
+        System.out.println("Sum of digits: " + sum);
+    }
+}
+Question 3.11: Sort an Array
+Problem: Take an integer array as input. Sort it in ascending order and print the result.
+
+Answer:
+
+Java
+
+import java.util.Arrays;
+import java.util.Scanner;
+public class SortArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size: ");
+        int n = sc.nextInt(); int[] arr = new int[n];
+        System.out.println("Enter elements:");
+        for(int i=0; i<n; i++) arr[i] = sc.nextInt();
+        Arrays.sort(arr);
+        System.out.println("Sorted: " + Arrays.toString(arr));
+    }
+}
+Question 3.12: Find Second Largest Element
+Problem: Find the second largest element in an integer array.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class SecondLargest {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size: ");
+        int n = sc.nextInt(); int[] arr = new int[n];
+        System.out.println("Enter elements:");
+        for(int i=0; i<n; i++) arr[i] = sc.nextInt();
+        int largest = Integer.MIN_VALUE, second = Integer.MIN_VALUE;
+        for (int num : arr) {
+            if (num > largest) { second = largest; largest = num; }
+            else if (num > second && num != largest) { second = num; }
+        }
+        System.out.println("Second Largest: " + second);
+    }
+}
+Question 3.13: Capitalize Words
+Problem: Take a sentence as input. Print it with the first letter of each word capitalized.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class CapitalizeWords {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter sentence: ");
+        String line = sc.nextLine(); String[] words = line.split("\\s+");
+        StringBuilder result = new StringBuilder();
+        for (String word : words) result.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
+        System.out.println(result.toString().trim());
+    }
+}
+Question 3.14: Factorial of a Number
+Problem: Take an integer N as input and calculate its factorial.
+
+Answer:
+
+Java
+
+import java.util.Scanner;
+public class Factorial {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number: ");
+        int n = sc.nextInt(); long fact = 1;
+        for (int i = 1; i <= n; ++i) fact *= i;
+        System.out.println("Factorial: " + fact);
+    }
+}
+Question 3.15: Remove Duplicates from an Array
+Problem: Take an integer array as input. Print the array with duplicate elements removed.
+
+Answer:
+
+Java
+
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Scanner;
+public class RemoveDuplicates {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter size: ");
+        int n = sc.nextInt(); Integer[] arr = new Integer[n];
+        System.out.println("Enter elements:");
+        for(int i=0; i<n; i++) arr[i] = sc.nextInt();
+        LinkedHashSet<Integer> set = new LinkedHashSet<>(Arrays.asList(arr));
+        System.out.println("Unique elements: " + set);
+    }
+}
